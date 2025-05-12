@@ -4,7 +4,7 @@ using System.Data.SQLite;
 public static class Repository
 {
     // Public variable holding the connection
-    public static SQLiteConnection Connection { get; private set; }
+    public static SQLiteConnection? Connection { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the SQLiteDatabase class and opens a connection.
