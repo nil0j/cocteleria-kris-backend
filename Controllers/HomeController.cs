@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using cocteleria_kris_backend.Models;
 
 namespace cocteleria_kris_backend.Controllers;
@@ -11,6 +12,7 @@ public class HomeController : Controller
         return Json(message);
     }
 
+    [Authorize]
     public JsonResult Boniato()
     {
         JsonMessage message = new JsonMessage("Eres un boniato");
