@@ -1,3 +1,4 @@
+drop table drinks;
 CREATE TABLE IF NOT EXISTS drinks
 (
     id               INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,8 +14,8 @@ CREATE TABLE IF NOT EXISTS drinks
     bronson_extract  INTEGER DEFAULT 0,
     flanergide       INTEGER DEFAULT 0,
     karmotrine       INTEGER DEFAULT 0,
-    needs_ice        INTEGER DEFAULT 0,
-    needs_aged       INTEGER DEFAULT 0,
+    ice              INTEGER DEFAULT 0,
+    aged             INTEGER DEFAULT 0,
     preparation      TEXT DEFAULT 'mixed',
     shortcut         TEXT,
     description      TEXT,

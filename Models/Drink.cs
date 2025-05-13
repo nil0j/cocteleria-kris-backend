@@ -4,7 +4,6 @@ public class Drink
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Source { get; set; }
     public int Price { get; set; }
     public bool Alcoholic { get; set; } // can be yes or no
     public string Flavour { get; set; }
