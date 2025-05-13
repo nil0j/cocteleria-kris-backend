@@ -22,7 +22,14 @@ public class Drink
     public string Description { get; set; }
     public bool KarmotrineOptional { get; set; }
 
-    public Drink()
+    public string Filename
     {
+        get
+        {
+            string formattedName = Name.Replace(" ", "");
+            return $"/drinks/{formattedName}.png";
+        }
+        // No setter is needed because the value is calculated, not set from the database or elsewhere
+        // If you wanted to allow setting it manually, you would add a 'set' accessor
     }
 }

@@ -28,10 +28,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings.Issuer,
-            ValidAudience = jwtSettings.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
-            ClockSkew = TimeSpan.Zero // Optional: helps account for server clock drift
+            ValidIssuer = jwtSettings?.Issuer,
+            ValidAudience = jwtSettings?.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.SecretKey ?? "")),
+            ClockSkew = TimeSpan.Zero
         };
     });
 
