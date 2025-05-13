@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS drinks
     id               INTEGER PRIMARY KEY AUTOINCREMENT,
     name             TEXT NOT NULL,
     price            INTEGER NOT NULL,
-    alcoholic        TEXT NOT NULL,
+    alcoholic        INTEGER DEFAULT 0,
     flavour          TEXT NOT NULL,
     primary_type     TEXT NOT NULL,
     secondary_type   TEXT,

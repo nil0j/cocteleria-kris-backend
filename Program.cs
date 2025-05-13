@@ -38,6 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add authorization
 builder.Services.AddAuthorization();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
