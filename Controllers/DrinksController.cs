@@ -20,30 +20,39 @@ public class DrinksController : ControllerBase
     public async Task<ActionResult<IEnumerable<Drink>>> GetDrinks(
             [FromQuery] bool? alcoholic,
             [FromQuery] string? type,
-            [FromQuery] string? flavour
+            [FromQuery] string? flavour,
+            [FromQuery] bool? orderByPrice,
+            [FromQuery] string? name
     )
     {
-
         if (_context.Drinks == null)
         {
             return StatusCode(400, "Drinks DbSet is not available in the database context.");
         }
 
-        var drinks = await _context.Drinks
+        var drinks = _context.Drinks
             .Where(d => !alcoholic.HasValue || d.Alcoholic == alcoholic)
             .Where(d => type == null || d.PrimaryType == type || d.SecondaryType == type)
-            .Where(d => flavour == null || d.Flavour == flavour || d.Flavour == flavour)
-            .ToListAsync();
+            .Where(d => name == null || d.Name.Contains(name));
 
+        if (orderByPrice.HasValue)
+        {
+            drinks = drinks.OrderBy(d => d.Price);
+            if (!orderByPrice.Value)
+            {
+                drinks = drinks.Reverse();
+            }
+        }
 
-        return Ok(drinks);
+        return Ok(await drinks.ToListAsync());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Drink>> GetDrinkById(int id)
+    public async Task<ActionResult<Drink>> GetDrinkById(int id, bool? related)
     {
-        if (_context.Drinks == null)
+        if (related.HasValue)
         {
+            var drinks = _context.Drinks;
             return StatusCode(400, "Drinks DbSet is not available in the database context.");
         }
 
@@ -55,6 +64,7 @@ public class DrinksController : ControllerBase
         }
 
         return Ok(drink);
+
     }
 
     public async Task<ActionResult<IEnumerable<Drink>>> GetAlcoholicDrinks([FromQuery] bool? alcoholic)
