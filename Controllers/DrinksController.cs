@@ -80,4 +80,70 @@ public class DrinksController : ControllerBase
 
         return Ok(nonAlcoholicDrinks);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Drink>> PostDrink(Drink drink)
+    {
+        if (_context.Drinks == null)
+        {
+            return Problem("Entity set 'ApplicationDbContext.Drinks' is null.");
+        }
+        _context.Drinks.Add(drink);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetDrinkById), new { id = drink.Id }, drink);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutDrink(int id, Drink drink)
+    {
+        if (id != drink.Id)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(drink).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!DrinkExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteDrink(int id)
+    {
+        if (_context.Drinks == null)
+        {
+            return Problem("Entity set 'ApplicationDbContext.Drinks' is null.");
+        }
+        var drink = await _context.Drinks.FindAsync(id);
+        if (drink == null)
+        {
+            return NotFound();
+        }
+
+        _context.Drinks.Remove(drink);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool DrinkExists(int id)
+    {
+        return (_context.Drinks?.Any(e => e.Id == id)).GetValueOrDefault();
+    }
 }
