@@ -19,7 +19,8 @@ public class DrinksController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Drink>>> GetDrinks(
             [FromQuery] bool? alcoholic,
-            [FromQuery] string? tag
+            [FromQuery] string? type,
+            [FromQuery] string? flavour
     )
     {
 
@@ -30,7 +31,8 @@ public class DrinksController : ControllerBase
 
         var drinks = await _context.Drinks
             .Where(d => !alcoholic.HasValue || d.Alcoholic == alcoholic)
-            .Where(d => tag == null || d.PrimaryType == tag || d.SecondaryType == tag)
+            .Where(d => type == null || d.PrimaryType == type || d.SecondaryType == type)
+            .Where(d => flavour == null || d.Flavour == flavour || d.Flavour == flavour)
             .ToListAsync();
 
 
