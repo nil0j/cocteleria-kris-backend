@@ -18,9 +18,18 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    [Consumes("application/x-www-form-urlencoded", "multipart/form-data")]
-    public async Task<IActionResult> Register(UserRegistrationRequest request)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Register([FromForm] UserRegistrationRequest request, IFormFile imageFile)
     {
+        if (imageFile != null && imageFile.Length > 0)
+        {
+            var filePath = Path.Combine(Configuration.FileSystemPath, "users", imageFile.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+        }
+
         var result = await _userService.RegisterUser(request.Username, request.Password);
 
         if (result.Success)
