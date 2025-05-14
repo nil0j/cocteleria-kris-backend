@@ -18,6 +18,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> Register(UserRegistrationRequest request)
     {
         var result = await _userService.RegisterUser(request.Username, request.Password);
@@ -33,6 +34,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> Login(UserLoginRequest request)
     {
         var user = await _userService.AuthenticateUser(request.Username, request.Password);

@@ -1,8 +1,8 @@
-public static class Configutarion
+public static class Configuration
 {
     public static string FileSystemPath { get; }
 
-    static Configutarion()
+    static Configuration()
     {
         FileSystemPath = Environment.GetEnvironmentVariable("FILESYSTEM") ?? "";
     }

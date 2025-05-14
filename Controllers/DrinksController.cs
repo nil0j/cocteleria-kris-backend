@@ -68,7 +68,7 @@ public class DrinksController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Drink>> PostDrinkWithFile(Drink drink, IFormFile imageFile)
+    public async Task<ActionResult<Drink>> PostDrinkWithFile(Drink drink)
     {
         if (_context.Drinks == null)
         {
@@ -78,34 +78,10 @@ public class DrinksController : ControllerBase
         _context.Drinks.Add(drink);
         await _context.SaveChangesAsync();
 
-        if (imageFile != null && imageFile.Length > 0)
-        {
-            var fileName = Path.GetFileName(imageFile.FileName);
-            var filePath = Path.Combine(Configutarion.FileSystemPath, fileName);
+        _context.Drinks.Add(drink);
+        await _context.SaveChangesAsync();
 
-            try
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(400, $"Error saving file: {ex.Message}");
-            }
-
-            drink.Filename = fileName;
-
-            _context.Drinks.Add(drink);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetDrinkById), new { id = drink.Id }, drink);
-        }
-        else
-        {
-            return StatusCode(400, "You need to provide a file!");
-        }
+        return CreatedAtAction(nameof(GetDrinkById), new { id = drink.Id }, drink);
     }
 
     [HttpPut("{id}")]
