@@ -68,15 +68,21 @@ public class DrinksController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Drink>> PostDrinkWithFile(Drink drink)
+    public async Task<ActionResult<Drink>> PostDrinkWithFile([FromForm] Drink drink, IFormFile imageFile)
     {
+        if (imageFile != null && imageFile.Length > 0)
+        {
+            var filePath = Path.Combine(Configuration.FileSystemPath, "drinks", imageFile.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+        }
+
         if (_context.Drinks == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Drinks' is null.");
         }
-
-        _context.Drinks.Add(drink);
-        await _context.SaveChangesAsync();
 
         _context.Drinks.Add(drink);
         await _context.SaveChangesAsync();
