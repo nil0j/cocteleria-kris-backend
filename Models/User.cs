@@ -12,14 +12,4 @@ public class User
 
     [Required]
     public string PasswordHash { get; set; } // We'll store the hashed password
-
-    public string Filename { get; set; }
-
-    public string FilenameFull
-    {
-        get
-        {
-            return "/static/users" + Filename;
-        }
-    }
 }
