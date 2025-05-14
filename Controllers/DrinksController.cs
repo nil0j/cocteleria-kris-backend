@@ -67,31 +67,45 @@ public class DrinksController : ControllerBase
 
     }
 
-    public async Task<ActionResult<IEnumerable<Drink>>> GetAlcoholicDrinks([FromQuery] bool? alcoholic)
-    {
-        if (_context.Drinks == null)
-        {
-            return StatusCode(400, "Drinks DbSet is not available in the database context.");
-        }
-
-        var nonAlcoholicDrinks = await _context.Drinks
-            .Where(d => d.Alcoholic == alcoholic)
-            .ToListAsync();
-
-        return Ok(nonAlcoholicDrinks);
-    }
-
     [HttpPost]
-    public async Task<ActionResult<Drink>> PostDrink(Drink drink)
+    public async Task<ActionResult<Drink>> PostDrinkWithFile(Drink drink, IFormFile imageFile)
     {
         if (_context.Drinks == null)
         {
             return Problem("Entity set 'ApplicationDbContext.Drinks' is null.");
         }
+
         _context.Drinks.Add(drink);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetDrinkById), new { id = drink.Id }, drink);
+        if (imageFile != null && imageFile.Length > 0)
+        {
+            var fileName = Path.GetFileName(imageFile.FileName);
+            var filePath = Path.Combine(Configutarion.FileSystemPath, fileName);
+
+            try
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, $"Error saving file: {ex.Message}");
+            }
+
+            drink.Filename = fileName;
+
+            _context.Drinks.Add(drink);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetDrinkById), new { id = drink.Id }, drink);
+        }
+        else
+        {
+            return StatusCode(400, "You need to provide a file!");
+        }
     }
 
     [HttpPut("{id}")]
