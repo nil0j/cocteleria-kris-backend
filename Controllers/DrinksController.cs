@@ -84,6 +84,7 @@ public class DrinksController : ControllerBase
             return Problem("Entity set 'ApplicationDbContext.Drinks' is null.");
         }
 
+        drink.Filename = imageFile!.FileName;
         _context.Drinks.Add(drink);
         await _context.SaveChangesAsync();
 
