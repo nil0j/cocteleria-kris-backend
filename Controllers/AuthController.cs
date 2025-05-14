@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
     {
         if (imageFile != null && imageFile.Length > 0)
         {
-            var filePath = Path.Combine(Configuration.FileSystemPath, "users", imageFile.FileName);
+            var filePath = Path.Combine(Configuration.FileSystemPath, "users", request.Username + ".png");
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await imageFile.CopyToAsync(stream);
