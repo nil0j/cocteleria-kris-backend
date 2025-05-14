@@ -48,4 +48,4 @@ curlie :5013/home/boniato Authorization:"Bearer token"
 
 
 # Hosting
-This is currently being hosted at (155.138.229.44)[http://155.138.229.44]
+This is currently being hosted at [155.138.229.44](http://155.138.229.44)
