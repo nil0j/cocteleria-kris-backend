@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using cocteleria_kris_backend.Models;
 using cocteleria_kris_backend.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cocteleria_kris_backend.Controllers;
 
@@ -67,6 +68,7 @@ public class DrinksController : ControllerBase
 
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Drink>> PostDrinkWithFile([FromForm] Drink drink, IFormFile imageFile)
     {
@@ -91,6 +93,7 @@ public class DrinksController : ControllerBase
         return CreatedAtAction(nameof(GetDrinkById), new { id = drink.Id }, drink);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> PutDrink(int id, Drink drink)
     {
@@ -120,6 +123,7 @@ public class DrinksController : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDrink(int id)
     {

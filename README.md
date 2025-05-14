@@ -18,10 +18,18 @@ curlie :5013/api/drinks/?name=Gut
 curlie :5013/api/drinks?orderByPrice=true
 ```
 
+You can now create/modify/delete drinks
+following the model and adding an image
+as multipart/formdata and using JWT.
+The link is /api/drinks.
+
+
 
 ## JWT and user management
 
-Currently available endpoints (they use json):
+Authentication now works with FormData,
+and user creation requires an image called imageFile aswell.
+The following are outdated:
 
 - api/auth/login
 ```bash
@@ -38,3 +46,6 @@ curlie :5013/api/auth/register username=user password=pass
 curlie :5013/home/boniato Authorization:"Bearer token"
 ```
 
+
+# Hosting
+This is currently being hosted at (155.138.229.44)[http://155.138.229.44]
