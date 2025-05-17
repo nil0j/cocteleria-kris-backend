@@ -4,6 +4,6 @@ public static class Configuration
 
     static Configuration()
     {
-        FileSystemPath = Environment.GetEnvironmentVariable("FILESYSTEM") ?? "";
+        FileSystemPath = Environment.GetEnvironmentVariable("FILESYSTEM") ?? "/var/www/kris";
     }
 }

@@ -9,12 +9,12 @@ namespace cocteleria_kris_backend.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IUserService _userService;
-    private readonly IJwtService _jwtService; // Missing in your provided code
+    private readonly IJwtService _jwtService;
 
-    public AuthController(IUserService userService, IJwtService jwtService) // Missing jwtService parameter
+    public AuthController(IUserService userService, IJwtService jwtService)
     {
         _userService = userService;
-        _jwtService = jwtService; // Missing assignment
+        _jwtService = jwtService;
     }
 
     [HttpPost("register")]
@@ -43,7 +43,6 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    [Consumes("application/x-www-form-urlencoded", "multipart/form-data")]
     public async Task<IActionResult> Login(UserLoginRequest request)
     {
         var user = await _userService.AuthenticateUser(request.Username, request.Password);
