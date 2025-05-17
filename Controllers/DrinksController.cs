@@ -34,7 +34,7 @@ public class DrinksController : ControllerBase
         var drinks = _context.Drinks
             .Where(d => !alcoholic.HasValue || d.Alcoholic == alcoholic)
             .Where(d => flavour == null || d.Flavour == null || d.Flavour!.ToLower() == flavour.ToLower())
-            .Where(d => type == null || d.PrimaryType == null || d.SecondaryType == null || d.PrimaryType!.ToLower() == type || d.SecondaryType!.ToLower() == type)
+            .Where(d => type == null || d.PrimaryType == null || d.SecondaryType == null || d.PrimaryType!.ToLower() == type.ToLower() || d.SecondaryType!.ToLower() == type.ToLower())
             .Where(d => name == null || d.Name == null || d.Name.ToLower().Contains(name.ToLower()));
 
         if (orderByPrice.HasValue)
