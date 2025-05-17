@@ -1,6 +1,6 @@
 # Cocteleria Kris - Backend
 This is the source code for the Cocteleria Kris' backend.
-![cocktail](./foto.png)
+![cocktail](./foto.jpg)
 
 The project relies on Object Oriented Programming
 and a Model-~~View~~-Controller architecture
